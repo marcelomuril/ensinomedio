@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Desvendando o Ensino Médio</title>
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Font Awesome (Ícones) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+  
+  <style>
+    /* Estilos personalizados */
+    body {
+      font-family: 'Poppins', sans-serif;
+    }
+    .modal-backdrop {
+      transition: opacity 0.3s ease-in-out;
+    }
+    .modal-content {
+      transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+      /* Padrão de fundo sutil para os modais */
+      background-image: radial-gradient(#e5e7eb 1px, transparent 1px);
+      background-size: 16px 16px;
+    }
+    .accordion-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease-in-out;
+    }
+    .accordion-item.active .accordion-content {
+      max-height: 500px; /* Altura suficiente para o conteúdo */
+    }
+    .accordion-item.active .accordion-icon {
+      transform: rotate(180deg);
+    }
+    .card-hover-effect {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .card-hover-effect:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+    }
+    /* Animações Tailwind */
+    @keyframes fadeInDown {
+      0% {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    @keyframes fadeInUp {
+      0% {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    .animate-fade-in-down {
+      animation: fadeInDown 0.8s ease-out forwards;
+    }
+    .animate-fade-in-up {
+      animation: fadeInUp 0.8s ease-out 0.3s forwards;
+      opacity: 0;
+    }
+  </style>
+</head>
+<body class="bg-gray-100">
+
+  <!-- Cabeçalho -->
+  <header class="bg-gradient-to-r from-purple-600 to-blue-500 text-white text-center py-20 px-6">
+    <h1 class="text-4xl md:text-6xl font-extrabold mb-4 animate-fade-in-down">Desvendando o Ensino Médio</h1>
+    <p class="text-lg md:text-xl max-w-3xl mx-auto animate-fade-in-up">Qual é a sua praia? Explore as áreas de estudo e descubra o caminho que mais combina com você!</p>
+  </header>
+
+  <!-- Conteúdo Principal -->
+  <main class="container mx-auto px-6 py-16">
+    <div class="text-center mb-12">
+      <h2 class="text-3xl font-bold text-gray-800">Navegue pelas Áreas do Conhecimento</h2>
+      <p class="text-gray-600 mt-2">Clique em um card para ver os detalhes, profissões e tirar suas dúvidas.</p>
+    </div>
+
+    <!-- Grid de Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+      
+      <!-- Card Linguagens -->
+      <div class="card-hover-effect bg-white rounded-2xl shadow-lg p-8 text-center cursor-pointer" onclick="openModal('linguagens')">
+        <i class="fas fa-comments text-5xl text-red-500 mb-4"></i>
+        <h3 class="text-2xl font-bold text-gray-800">Linguagens</h3>
+        <p class="text-gray-500 mt-2">Comunicação, arte e cultura.</p>
+      </div>
+
+      <!-- Card Humanas -->
+      <div class="card-hover-effect bg-white rounded-2xl shadow-lg p-8 text-center cursor-pointer" onclick="openModal('humanas')">
+        <i class="fas fa-users text-5xl text-yellow-500 mb-4"></i>
+        <h3 class="text-2xl font-bold text-gray-800">Ciências Humanas</h3>
+        <p class="text-gray-500 mt-2">Sociedade, história e pensamento.</p>
+      </div>
+
+      <!-- Card Natureza -->
+      <div class="card-hover-effect bg-white rounded-2xl shadow-lg p-8 text-center cursor-pointer" onclick="openModal('natureza')">
+        <i class="fas fa-flask text-5xl text-green-500 mb-4"></i>
+        <h3 class="text-2xl font-bold text-gray-800">Ciências da Natureza</h3>
+        <p class="text-gray-500 mt-2">Vida, universo e fenômenos.</p>
+      </div>
+
+      <!-- Card Matemática -->
+      <div class="card-hover-effect bg-white rounded-2xl shadow-lg p-8 text-center cursor-pointer" onclick="openModal('matematica')">
+        <i class="fas fa-calculator text-5xl text-blue-500 mb-4"></i>
+        <h3 class="text-2xl font-bold text-gray-800">Matemática</h3>
+        <p class="text-gray-500 mt-2">Lógica, números e tecnologia.</p>
+      </div>
+
+    </div>
+
+    <div class="text-center mt-16 mb-12">
+        <h2 class="text-3xl font-bold text-gray-800">Opções de Ensino Técnico Integrado</h2>
+        <p class="text-gray-600 mt-2">Aprenda uma profissão junto com o Ensino Médio e prepare-se para o mercado!</p>
+    </div>
+
+    <!-- Grid de Cursos Técnicos -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <!-- Card Agronegócio -->
+        <div class="card-hover-effect bg-white rounded-2xl shadow-lg p-8 text-center cursor-pointer" onclick="openModal('agro')">
+            <i class="fas fa-tractor text-5xl text-lime-600 mb-4"></i>
+            <h3 class="text-2xl font-bold text-gray-800">Agronegócio</h3>
+        </div>
+        <!-- Card Administração -->
+        <div class="card-hover-effect bg-white rounded-2xl shadow-lg p-8 text-center cursor-pointer" onclick="openModal('admin')">
+            <i class="fas fa-chart-line text-5xl text-indigo-500 mb-4"></i>
+            <h3 class="text-2xl font-bold text-gray-800">Administração</h3>
+        </div>
+        <!-- Card Eletromecânica -->
+        <div class="card-hover-effect bg-white rounded-2xl shadow-lg p-8 text-center cursor-pointer" onclick="openModal('eletro')">
+            <i class="fas fa-robot text-5xl text-gray-600 mb-4"></i>
+            <h3 class="text-2xl font-bold text-gray-800">Eletromecânica</h3>
+        </div>
+    </div>
+  </main>
+  
+  <!-- Modals -->
+  <div id="modal-container" class="fixed inset-0 z-50 overflow-y-auto hidden">
+    <!-- Fundo Escuro -->
+    <div id="modal-backdrop" class="fixed inset-0 bg-black bg-opacity-60" onclick="closeAllModals()"></div>
+    
+    <!-- Conteúdo dos Modals -->
+    <div class="flex items-center justify-center min-h-screen p-4">
+      
+      <!-- Modal: Linguagens -->
+      <div id="modal-linguagens" class="modal-content relative bg-white w-full max-w-5xl rounded-2xl shadow-2xl p-8 md:p-12 transform scale-95 opacity-0 hidden">
+        <button onclick="closeAllModals()" class="absolute top-4 right-6 text-3xl text-gray-400 hover:text-gray-800 transition">&times;</button>
+        <h2 class="text-4xl font-extrabold text-red-500 mb-6">Linguagens e suas Tecnologias</h2>
+        <p class="mb-8 text-lg text-gray-600">Esta área foca na arte da comunicação, na expressão de ideias, na interpretação de culturas e na criação artística. É o estudo de como nos comunicamos, seja por palavras, imagens ou sons.</p>
+        
+        <div class="grid md:grid-cols-2 gap-8 mb-8">
+            <div>
+                <h4 class="font-bold text-xl mb-3 text-gray-700 flex items-center"><i class="fas fa-user-check fa-fw mr-3 text-red-400"></i>Perfil do Estudante:</h4>
+                <ul class="list-inside text-gray-600 text-lg space-y-2">
+                    <li class="flex items-start"><i class="fas fa-paint-brush text-red-400 mt-1 mr-2"></i>Criativo e imaginativo</li>
+                    <li class="flex items-start"><i class="fas fa-book-open-reader text-red-400 mt-1 mr-2"></i>Gosta de ler e escrever</li>
+                    <li class="flex items-start"><i class="fas fa-bullhorn text-red-400 mt-1 mr-2"></i>Comunicativo e sociável</li>
+                    <li class="flex items-start"><i class="fas fa-film text-red-400 mt-1 mr-2"></i>Curte arte, música e cinema</li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="font-bold text-xl mb-3 text-gray-700 flex items-center"><i class="fas fa-book fa-fw mr-3 text-red-400"></i>O que se estuda?</h4>
+                <p class="text-gray-600 text-lg">Português, Literatura, Redação, Inglês, Espanhol e Artes.</p>
+            </div>
+        </div>
+
+        <h4 class="font-bold text-xl mb-4 text-gray-700 flex items-center"><i class="fas fa-briefcase fa-fw mr-3 text-red-400"></i>Possíveis Profissões:</h4>
+        <div class="flex flex-wrap gap-4 mb-8">
+            <span class="bg-red-100 text-red-800 px-4 py-2 rounded-full text-base font-semibold">Jornalismo</span>
+            <span class="bg-red-100 text-red-800 px-4 py-2 rounded-full text-base font-semibold">Publicidade</span>
+            <span class="bg-red-100 text-red-800 px-4 py-2 rounded-full text-base font-semibold">Design Gráfico</span>
+            <span class="bg-red-100 text-red-800 px-4 py-2 rounded-full text-base font-semibold">Cinema</span>
+            <span class="bg-red-100 text-red-800 px-4 py-2 rounded-full text-base font-semibold">Letras</span>
+        </div>
+        
+        <!-- Tira-Dúvidas (FAQ) -->
+        <div class="space-y-3">
+            <h4 class="font-bold text-xl mb-3 text-gray-700 flex items-center"><i class="fas fa-question-circle fa-fw mr-3 text-red-400"></i>Tira-Dúvidas:</h4>
+            <div class="accordion-item border-2 border-gray-200 rounded-lg">
+                <button class="accordion-header w-full text-left p-4 text-lg font-semibold flex justify-between items-center">Preciso ser um gênio em português?<i class="fas fa-chevron-down accordion-icon transition-transform"></i></button>
+                <div class="accordion-content px-4 pb-4 text-gray-600 text-base">Não! O mais importante é ter interesse em comunicação e vontade de aprender a se expressar melhor. A área te ajuda a desenvolver essas habilidades.</div>
+            </div>
+             <div class="accordion-item border-2 border-gray-200 rounded-lg">
+                <button class="accordion-header w-full text-left p-4 text-lg font-semibold flex justify-between items-center">Essa área é só pra quem quer ser professor?<i class="fas fa-chevron-down accordion-icon transition-transform"></i></button>
+                <div class="accordion-content px-4 pb-4 text-gray-600 text-base">Definitivamente não! As opções são vastas, incluindo marketing, criação de conteúdo para internet, jornalismo, design, roteiro para games e muito mais.</div>
+            </div>
+        </div>
+      </div>
+
+      <!-- Modal: Humanas -->
+      <div id="modal-humanas" class="modal-content relative bg-white w-full max-w-5xl rounded-2xl shadow-2xl p-8 md:p-12 transform scale-95 opacity-0 hidden">
+         <button onclick="closeAllModals()" class="absolute top-4 right-6 text-3xl text-gray-400 hover:text-gray-800 transition">&times;</button>
+        <h2 class="text-4xl font-extrabold text-yellow-500 mb-6">Ciências Humanas e Sociais</h2>
+        <p class="mb-8 text-lg text-gray-600">Aqui, o foco é entender o ser humano e a sociedade. Estudamos o passado para compreender o presente, analisamos as diferentes culturas, o comportamento das pessoas e a organização política do mundo.</p>
+         <div class="grid md:grid-cols-2 gap-8 mb-8">
+            <div>
+                <h4 class="font-bold text-xl mb-3 text-gray-700 flex items-center"><i class="fas fa-user-check fa-fw mr-3 text-yellow-400"></i>Perfil do Estudante:</h4>
+                <ul class="list-inside text-gray-600 text-lg space-y-2">
+                    <li class="flex items-start"><i class="fas fa-search text-yellow-400 mt-1 mr-2"></i>Curioso sobre o porquê das coisas</li>
+                    <li class="flex items-start"><i class="fas fa-comments text-yellow-400 mt-1 mr-2"></i>Gosta de debater e argumentar</li>
+                    <li class="flex items-start"><i class="fas fa-handshake text-yellow-400 mt-1 mr-2"></i>Interessado em questões sociais</li>
+                    <li class="flex items-start"><i class="fas fa-newspaper text-yellow-400 mt-1 mr-2"></i>Lê notícias e se informa</li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="font-bold text-xl mb-3 text-gray-700 flex items-center"><i class="fas fa-book fa-fw mr-3 text-yellow-400"></i>O que se estuda?</h4>
+                <p class="text-gray-600 text-lg">História, Geografia, Sociologia e Filosofia.</p>
+            </div>
+        </div>
+        <h4 class="font-bold text-xl mb-4 text-gray-700 flex items-center"><i class="fas fa-briefcase fa-fw mr-3 text-yellow-400"></i>Possíveis Profissões:</h4>
+        <div class="flex flex-wrap gap-4 mb-8">
+            <span class="bg-yellow-100 text-yellow-800 px-4 py-2 rounded-full text-base font-semibold">Direito</span>
+            <span class="bg-yellow-100 text-yellow-800 px-4 py-2 rounded-full text-base font-semibold">Psicologia</span>
+            <span class="bg-yellow-100 text-yellow-800 px-4 py-2 rounded-full text-base font-semibold">Relações Internacionais</span>
+            <span class="bg-yellow-100 text-yellow-800 px-4 py-2 rounded-full text-base font-semibold">Jornalismo</span>
+            <span class="bg-yellow-100 text-yellow-800 px-4 py-2 rounded-full text-base font-semibold">Serviço Social</span>
+        </div>
+        <div class="space-y-3">
+            <h4 class="font-bold text-xl mb-3 text-gray-700 flex items-center"><i class="fas fa-question-circle fa-fw mr-3 text-yellow-400"></i>Tira-Dúvidas:</h4>
+            <div class="accordion-item border-2 border-gray-200 rounded-lg">
+                <button class="accordion-header w-full text-left p-4 text-lg font-semibold flex justify-between items-center">É uma área com pouco emprego?<i class="fas fa-chevron-down accordion-icon transition-transform"></i></button>
+                <div class="accordion-content px-4 pb-4 text-gray-600 text-base">Isso é um mito! Profissionais de Humanas são essenciais em empresas, governos e ONGs. A capacidade de analisar cenários e entender pessoas é muito valorizada.</div>
+            </div>
+             <div class="accordion-item border-2 border-gray-200 rounded-lg">
+                <button class="accordion-header w-full text-left p-4 text-lg font-semibold flex justify-between items-center">Preciso gostar de política?<i class="fas fa-chevron-down accordion-icon transition-transform"></i></button>
+                <div class="accordion-content px-4 pb-4 text-gray-600 text-base">Não precisa ser um especialista, mas é importante ter interesse em como a sociedade se organiza. A política é parte disso, mas a área vai muito além.</div>
+            </div>
+        </div>
+      </div>
+
+       <div id="modal-natureza" class="modal-content relative bg-white w-full max-w-5xl rounded-2xl shadow-2xl p-8 md:p-12 transform scale-95 opacity-0 hidden">
+        <button onclick="closeAllModals()" class="absolute top-4 right-6 text-3xl text-gray-400 hover:text-gray-800 transition">&times;</button>
+        <h2 class="text-4xl font-extrabold text-green-500 mb-6">Ciências da Natureza e suas Tecnologias</h2>
+        <p class="mb-8 text-lg text-gray-600">É a área dos curiosos que querem entender como a vida, o universo e tudo mais funcionam. Envolve investigações, experimentos e a aplicação da ciência para resolver problemas práticos e criar novas tecnologias.</p>
+         <div class="grid md:grid-cols-2 gap-8 mb-8">
+            <div>
+                <h4 class="font-bold text-xl mb-3 text-gray-700 flex items-center"><i class="fas fa-user-check fa-fw mr-3 text-green-400"></i>Perfil do Estudante:</h4>
+                <ul class="list-inside text-gray-600 text-lg space-y-2">
+                    <li class="flex items-start"><i class="fas fa-microscope text-green-400 mt-1 mr-2"></i>Investigativo e observador</li>
+                    <li class="flex items-start"><i class="fas fa-puzzle-piece text-green-400 mt-1 mr-2"></i>Gosta de resolver problemas</li>
+                    <li class="flex items-start"><i class="fas fa-seedling text-green-400 mt-1 mr-2"></i>Se interessa por tecnologia e natureza</li>
+                    <li class="flex items-start"><i class="fas fa-vial text-green-400 mt-1 mr-2"></i>Curte atividades práticas</li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="font-bold text-xl mb-3 text-gray-700 flex items-center"><i class="fas fa-book fa-fw mr-3 text-green-400"></i>O que se estuda?</h4>
+                <p class="text-gray-600 text-lg">Biologia, Física e Química.</p>
+            </div>
+        </div>
+        <h4 class="font-bold text-xl mb-4 text-gray-700 flex items-center"><i class="fas fa-briefcase fa-fw mr-3 text-green-400"></i>Possíveis Profissões:</h4>
+        <div class="flex flex-wrap gap-4 mb-8">
+            <span class="bg-green-100 text-green-800 px-4 py-2 rounded-full text-base font-semibold">Medicina</span>
+            <span class="bg-green-100 text-green-800 px-4 py-2 rounded-full text-base font-semibold">Engenharia Ambiental</span>
+            <span class="bg-green-100 text-green-800 px-4 py-2 rounded-full text-base font-semibold">Farmácia</span>
+            <span class="bg-green-100 text-green-800 px-4 py-2 rounded-full text-base font-semibold">Nutrição</span>
+            <span class="bg-green-100 text-green-800 px-4 py-2 rounded-full text-base font-semibold">Biomedicina</span>
+        </div>
+        <div class="space-y-3">
+            <h4 class="font-bold text-xl mb-3 text-gray-700 flex items-center"><i class="fas fa-question-circle fa-fw mr-3 text-green-400"></i>Tira-Dúvidas:</h4>
+            <div class="accordion-item border-2 border-gray-200 rounded-lg">
+                <button class="accordion-header w-full text-left p-4 text-lg font-semibold flex justify-between items-center">Preciso ser bom em matemática?<i class="fas fa-chevron-down accordion-icon transition-transform"></i></button>
+                <div class="accordion-content px-4 pb-4 text-gray-600 text-base">A matemática é uma ferramenta importante, principalmente em Física e Química. Mas não precisa ser um gênio! O foco é usar a lógica para entender os fenômenos.</div>
+            </div>
+             <div class="accordion-item border-2 border-gray-200 rounded-lg">
+                <button class="accordion-header w-full text-left p-4 text-lg font-semibold flex justify-between items-center">O trabalho é só em laboratório?<i class="fas fa-chevron-down accordion-icon transition-transform"></i></button>
+                <div class="accordion-content px-4 pb-4 text-gray-600 text-base">Não! Você pode trabalhar em campo (como biólogos e engenheiros ambientais), em hospitais, indústrias, consultorias e até no desenvolvimento de produtos.</div>
+            </div>
+        </div>
+      </div>
+      
+       <div id="modal-matematica" class="modal-content relative bg-white w-full max-w-5xl rounded-2xl shadow-2xl p-8 md:p-12 transform scale-95 opacity-0 hidden">
+        <button onclick="closeAllModals()" class="absolute top-4 right-6 text-3xl text-gray-400 hover:text-gray-800 transition">&times;</button>
+        <h2 class="text-4xl font-extrabold text-blue-500 mb-6">Matemática e suas Tecnologias</h2>
+        <p class="mb-8 text-lg text-gray-600">Mais do que apenas números, esta área é sobre raciocínio lógico, resolução de problemas e a criação de modelos para entender o mundo. É a base para todas as engenharias, para a computação e para a análise de dados.</p>
+         <div class="grid md:grid-cols-2 gap-8 mb-8">
+            <div>
+                <h4 class="font-bold text-xl mb-3 text-gray-700 flex items-center"><i class="fas fa-user-check fa-fw mr-3 text-blue-400"></i>Perfil do Estudante:</h4>
+                <ul class="list-inside text-gray-600 text-lg space-y-2">
+                    <li class="flex items-start"><i class="fas fa-brain text-blue-400 mt-1 mr-2"></i>Raciocínio lógico e abstrato</li>
+                    <li class="flex items-start"><i class="fas fa-dice-d6 text-blue-400 mt-1 mr-2"></i>Gosta de desafios e quebra-cabeças</li>
+                    <li class="flex items-start"><i class="fas fa-clipboard-check text-blue-400 mt-1 mr-2"></i>Organizado e metódico</li>
+                    <li class="flex items-start"><i class="fas fa-laptop-code text-blue-400 mt-1 mr-2"></i>Interessado em tecnologia</li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="font-bold text-xl mb-3 text-gray-700 flex items-center"><i class="fas fa-book fa-fw mr-3 text-blue-400"></i>O que se estuda?</h4>
+                <p class="text-gray-600 text-lg">Álgebra, Geometria, Estatística, Lógica e Computação.</p>
+            </div>
+        </div>
+        <h4 class="font-bold text-xl mb-4 text-gray-700 flex items-center"><i class="fas fa-briefcase fa-fw mr-3 text-blue-400"></i>Possíveis Profissões:</h4>
+        <div class="flex flex-wrap gap-4 mb-8">
+            <span class="bg-blue-100 text-blue-800 px-4 py-2 rounded-full text-base font-semibold">Engenharias</span>
+            <span class="bg-blue-100 text-blue-800 px-4 py-2 rounded-full text-base font-semibold">Ciência da Computação</span>
+            <span class="bg-blue-100 text-blue-800 px-4 py-2 rounded-full text-base font-semibold">Análise de Sistemas</span>
+            <span class="bg-blue-100 text-blue-800 px-4 py-2 rounded-full text-base font-semibold">Economia</span>
+            <span class="bg-blue-100 text-blue-800 px-4 py-2 rounded-full text-base font-semibold">Estatística</span>
+        </div>
+        <div class="space-y-3">
+            <h4 class="font-bold text-xl mb-3 text-gray-700 flex items-center"><i class="fas fa-question-circle fa-fw mr-3 text-blue-400"></i>Tira-Dúvidas:</h4>
+            <div class="accordion-item border-2 border-gray-200 rounded-lg">
+                <button class="accordion-header w-full text-left p-4 text-lg font-semibold flex justify-between items-center">O que posso fazer além de dar aula?<i class="fas fa-chevron-down accordion-icon transition-transform"></i></button>
+                <div class="accordion-content px-4 pb-4 text-gray-600 text-base">Muitas coisas! Você pode trabalhar no mercado financeiro, criar softwares e aplicativos, analisar dados para grandes empresas (Big Data), desenvolver inteligência artificial e muito mais.</div>
+            </div>
+             <div class="accordion-item border-2 border-gray-200 rounded-lg">
+                <button class="accordion-header w-full text-left p-4 text-lg font-semibold flex justify-between items-center">Preciso ser um gênio dos números?<i class="fas fa-chevron-down accordion-icon transition-transform"></i></button>
+                <div class="accordion-content px-4 pb-4 text-gray-600 text-base">O mais importante é gostar de pensar de forma lógica e não ter medo de desafios. A matemática é uma habilidade que se desenvolve com a prática, como um esporte.</div>
+            </div>
+        </div>
+      </div>
+
+       <div id="modal-agro" class="modal-content relative bg-white w-full max-w-5xl rounded-2xl shadow-2xl p-8 md:p-12 transform scale-95 opacity-0 hidden">
+        <button onclick="closeAllModals()" class="absolute top-4 right-6 text-3xl text-gray-400 hover:text-gray-800 transition">&times;</button>
+        <h2 class="text-4xl font-extrabold text-lime-600 mb-6">Técnico em Agronegócio</h2>
+        <p class="mb-8 text-lg text-gray-600">Este curso forma profissionais para atuar na gestão do campo, combinando tecnologia e administração para melhorar a produção de alimentos de forma sustentável. Você aprende desde o plantio até a venda do produto final.</p>
+         <div class="grid md:grid-cols-2 gap-8 mb-8">
+            <div>
+                <h4 class="font-bold text-xl mb-3 text-gray-700 flex items-center"><i class="fas fa-user-check fa-fw mr-3 text-lime-500"></i>Perfil do Estudante:</h4>
+                <ul class="list-inside text-gray-600 text-lg space-y-2">
+                    <li class="flex items-start"><i class="fas fa-leaf text-lime-500 mt-1 mr-2"></i>Gosta de natureza e tecnologia</li>
+                    <li class="flex items-start"><i class="fas fa-lightbulb text-lime-500 mt-1 mr-2"></i>Tem espírito empreendedor</li>
+                    <li class="flex items-start"><i class="fas fa-seedling text-lime-500 mt-1 mr-2"></i>Se interessa por biologia e gestão</li>
+                    <li class="flex items-start"><i class="fas fa-tools text-lime-500 mt-1 mr-2"></i>Busca soluções práticas</li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="font-bold text-xl mb-3 text-gray-700 flex items-center"><i class="fas fa-book fa-fw mr-3 text-lime-500"></i>O que se estuda?</h4>
+                <p class="text-gray-600 text-lg">Gestão Rural, Zootecnia, Agricultura de Precisão, Sustentabilidade.</p>
+            </div>
+        </div>
+        <h4 class="font-bold text-xl mb-4 text-gray-700 flex items-center"><i class="fas fa-briefcase fa-fw mr-3 text-lime-500"></i>Possíveis Atuações:</h4>
+        <div class="flex flex-wrap gap-4 mb-8">
+            <span class="bg-lime-100 text-lime-800 px-4 py-2 rounded-full text-base font-semibold">Gestão de Fazendas</span>
+            <span class="bg-lime-100 text-lime-800 px-4 py-2 rounded-full text-base font-semibold">Empresas de insumos</span>
+            <span class="bg-lime-100 text-lime-800 px-4 py-2 rounded-full text-base font-semibold">Consultoria Agrícola</span>
+            <span class="bg-lime-100 text-lime-800 px-4 py-2 rounded-full text-base font-semibold">Agroindústrias</span>
+        </div>
+        <div class="space-y-3">
+            <h4 class="font-bold text-xl mb-3 text-gray-700 flex items-center"><i class="fas fa-question-circle fa-fw mr-3 text-lime-500"></i>Tira-Dúvidas:</h4>
+            <div class="accordion-item border-2 border-gray-200 rounded-lg">
+                <button class="accordion-header w-full text-left p-4 text-lg font-semibold flex justify-between items-center">Preciso morar na fazenda?<i class="fas fa-chevron-down accordion-icon transition-transform"></i></button>
+                <div class="accordion-content px-4 pb-4 text-gray-600 text-base">Não! O agronegócio moderno envolve muita tecnologia e gestão que acontecem na cidade, em escritórios, laboratórios e empresas que vendem produtos para o campo.</div>
+            </div>
+             <div class="accordion-item border-2 border-gray-200 rounded-lg">
+                <button class="accordion-header w-full text-left p-4 text-lg font-semibold flex justify-between items-center">É só para quem vai trabalhar com plantas?<i class="fas fa-chevron-down accordion-icon transition-transform"></i></button>
+                <div class="accordion-content px-4 pb-4 text-gray-600 text-base">De jeito nenhum! O agronegócio também cuida da criação de animais (zootecnia), do controle de qualidade de alimentos, da operação de máquinas e drones, e da venda da produção.</div>
+            </div>
+        </div>
+      </div>
+      
+       <div id="modal-admin" class="modal-content relative bg-white w-full max-w-5xl rounded-2xl shadow-2xl p-8 md:p-12 transform scale-95 opacity-0 hidden">
+        <button onclick="closeAllModals()" class="absolute top-4 right-6 text-3xl text-gray-400 hover:text-gray-800 transition">&times;</button>
+        <h2 class="text-4xl font-extrabold text-indigo-500 mb-6">Técnico em Administração</h2>
+        <p class="mb-8 text-lg text-gray-600">O curso ideal para quem tem perfil de liderança e organização. Você aprende as ferramentas para gerenciar os recursos de uma empresa (pessoas, dinheiro, materiais) e a tomar decisões estratégicas para o negócio crescer.</p>
+         <div class="grid md:grid-cols-2 gap-8 mb-8">
+            <div>
+                <h4 class="font-bold text-xl mb-3 text-gray-700 flex items-center"><i class="fas fa-user-check fa-fw mr-3 text-indigo-400"></i>Perfil do Estudante:</h4>
+                <ul class="list-inside text-gray-600 text-lg space-y-2">
+                    <li class="flex items-start"><i class="fas fa-calendar-check text-indigo-400 mt-1 mr-2"></i>Organizado e proativo</li>
+                    <li class="flex items-start"><i class="fas fa-users text-indigo-400 mt-1 mr-2"></i>Gosta de planejar e liderar</li>
+                    <li class="flex items-start"><i class="fas fa-comments-dollar text-indigo-400 mt-1 mr-2"></i>Bom em comunicação</li>
+                    <li class="flex items-start"><i class="fas fa-chart-pie text-indigo-400 mt-1 mr-2"></i>Tem visão de negócios</li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="font-bold text-xl mb-3 text-gray-700 flex items-center"><i class="fas fa-book fa-fw mr-3 text-indigo-400"></i>O que se estuda?</h4>
+                <p class="text-gray-600 text-lg">Recursos Humanos, Finanças, Marketing, Logística, Empreendedorismo.</p>
+            </div>
+        </div>
+        <h4 class="font-bold text-xl mb-4 text-gray-700 flex items-center"><i class="fas fa-briefcase fa-fw mr-3 text-indigo-400"></i>Possíveis Atuações:</h4>
+        <div class="flex flex-wrap gap-4 mb-8">
+            <span class="bg-indigo-100 text-indigo-800 px-4 py-2 rounded-full text-base font-semibold">Assistente Administrativo</span>
+            <span class="bg-indigo-100 text-indigo-800 px-4 py-2 rounded-full text-base font-semibold">Setor Financeiro</span>
+            <span class="bg-indigo-100 text-indigo-800 px-4 py-2 rounded-full text-base font-semibold">Recursos Humanos</span>
+            <span class="bg-indigo-100 text-indigo-800 px-4 py-2 rounded-full text-base font-semibold">Seu próprio negócio</span>
+        </div>
+        <div class="space-y-3">
+            <h4 class="font-bold text-xl mb-3 text-gray-700 flex items-center"><i class="fas fa-question-circle fa-fw mr-3 text-indigo-400"></i>Tira-Dúvidas:</h4>
+            <div class="accordion-item border-2 border-gray-200 rounded-lg">
+                <button class="accordion-header w-full text-left p-4 text-lg font-semibold flex justify-between items-center">Vou ficar só preenchendo papelada?<i class="fas fa-chevron-down accordion-icon transition-transform"></i></button>
+                <div class="accordion-content px-4 pb-4 text-gray-600 text-base">Não! Um técnico em administração ajuda a organizar equipes, a controlar o dinheiro da empresa, a criar campanhas de marketing e a pensar em ideias para vender mais. É uma área muito dinâmica.</div>
+            </div>
+             <div class="accordion-item border-2 border-gray-200 rounded-lg">
+                <button class="accordion-header w-full text-left p-4 text-lg font-semibold flex justify-between items-center">Já posso abrir minha empresa?<i class="fas fa-chevron-down accordion-icon transition-transform"></i></button>
+                <div class="accordion-content px-4 pb-4 text-gray-600 text-base">O curso te dará as ferramentas e a confiança para começar! Você vai aprender sobre plano de negócios e empreendedorismo, e poderá sim iniciar seu próprio projeto ou uma pequena empresa.</div>
+            </div>
+        </div>
+      </div>
+
+       <div id="modal-eletro" class="modal-content relative bg-white w-full max-w-5xl rounded-2xl shadow-2xl p-8 md:p-12 transform scale-95 opacity-0 hidden">
+        <button onclick="closeAllModals()" class="absolute top-4 right-6 text-3xl text-gray-400 hover:text-gray-800 transition">&times;</button>
+        <h2 class="text-4xl font-extrabold text-gray-700 mb-6">Técnico em Eletromecânica</h2>
+        <p class="mb-8 text-lg text-gray-600">Para quem gosta de colocar a mão na massa! Este curso une o melhor da elétrica, da mecânica e da automação para formar profissionais que montam, operam e fazem a manutenção de máquinas e sistemas industriais.</p>
+         <div class="grid md:grid-cols-2 gap-8 mb-8">
+            <div>
+                <h4 class="font-bold text-xl mb-3 text-gray-700 flex items-center"><i class="fas fa-user-check fa-fw mr-3 text-gray-500"></i>Perfil do Estudante:</h4>
+                <ul class="list-inside text-gray-600 text-lg space-y-2">
+                    <li class="flex items-start"><i class="fas fa-cogs text-gray-500 mt-1 mr-2"></i>Gosta de tecnologia e máquinas</li>
+                    <li class="flex items-start"><i class="fas fa-brain text-gray-500 mt-1 mr-2"></i>Raciocínio lógico para problemas</li>
+                    <li class="flex items-start"><i class="fas fa-wrench text-gray-500 mt-1 mr-2"></i>Habilidade com ferramentas</li>
+                    <li class="flex items-start"><i class="fas fa-industry text-gray-500 mt-1 mr-2"></i>Gosta de ver as coisas funcionando</li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="font-bold text-xl mb-3 text-gray-700 flex items-center"><i class="fas fa-book fa-fw mr-3 text-gray-500"></i>O que se estuda?</h4>
+                <p class="text-gray-600 text-lg">Desenho Técnico, Automação, Robótica, Manutenção Industrial, Motores.</p>
+            </div>
+        </div>
+        <h4 class="font-bold text-xl mb-4 text-gray-700 flex items-center"><i class="fas fa-briefcase fa-fw mr-3 text-gray-500"></i>Possíveis Atuações:</h4>
+        <div class="flex flex-wrap gap-4 mb-8">
+            <span class="bg-gray-200 text-gray-800 px-4 py-2 rounded-full text-base font-semibold">Indústrias em geral</span>
+            <span class="bg-gray-200 text-gray-800 px-4 py-2 rounded-full text-base font-semibold">Manutenção de equipamentos</span>
+            <span class="bg-gray-200 text-gray-800 px-4 py-2 rounded-full text-base font-semibold">Projetos de automação</span>
+            <span class="bg-gray-200 text-gray-800 px-4 py-2 rounded-full text-base font-semibold">Empresas de energia</span>
+        </div>
+        <div class="space-y-3">
+            <h4 class="font-bold text-xl mb-3 text-gray-700 flex items-center"><i class="fas fa-question-circle fa-fw mr-3 text-gray-500"></i>Tira-Dúvidas:</h4>
+            <div class="accordion-item border-2 border-gray-200 rounded-lg">
+                <button class="accordion-header w-full text-left p-4 text-lg font-semibold flex justify-between items-center">É um curso só para meninos?<i class="fas fa-chevron-down accordion-icon transition-transform"></i></button>
+                <div class="accordion-content px-4 pb-4 text-gray-600 text-base">Claro que não! Cada vez mais meninas estão se destacando na área, criando robôs, programando máquinas e liderando equipes na indústria. Habilidade não tem gênero!</div>
+            </div>
+             <div class="accordion-item border-2 border-gray-200 rounded-lg">
+                <button class="accordion-header w-full text-left p-4 text-lg font-semibold flex justify-between items-center">Preciso ser muito forte para mexer com máquinas?<i class="fas fa-chevron-down accordion-icon transition-transform"></i></button>
+                <div class="accordion-content px-4 pb-4 text-gray-600 text-base">Não, o mais importante é a inteligência e o jeito para resolver problemas. Hoje, a tecnologia e as ferramentas certas, como pontes rolantes e equipamentos de segurança, fazem o trabalho pesado.</div>
+            </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    const modalContainer = document.getElementById('modal-container');
+    const modalBackdrop = document.getElementById('modal-backdrop');
+    const modals = document.querySelectorAll('.modal-content');
+    const accordionItems = document.querySelectorAll('.accordion-item');
+
+    function openModal(modalId) {
+      modalContainer.classList.remove('hidden');
+      document.body.classList.add('overflow-hidden');
+      
+      const modal = document.getElementById(`modal-${modalId}`);
+      
+      // Animação de entrada
+      modalBackdrop.classList.remove('opacity-0');
+      modalBackdrop.classList.add('opacity-100');
+      modal.classList.remove('hidden');
+      setTimeout(() => {
+        modal.classList.remove('scale-95', 'opacity-0');
+        modal.classList.add('scale-100', 'opacity-100');
+      }, 50); // Pequeno delay para a transição funcionar
+    }
+
+    function closeModal(modal) {
+        // Animação de saída
+        modal.classList.add('scale-95', 'opacity-0');
+        modal.classList.remove('scale-100', 'opacity-100');
+        setTimeout(() => {
+            modal.classList.add('hidden');
+            // Esconder o container apenas se todos os modais estiverem escondidos
+            const anyModalVisible = Array.from(modals).some(m => !m.classList.contains('hidden'));
+            if (!anyModalVisible) {
+                modalBackdrop.classList.add('opacity-0');
+                modalBackdrop.classList.remove('opacity-100');
+                modalContainer.classList.add('hidden');
+                document.body.classList.remove('overflow-hidden');
+            }
+        }, 300); // Duração da transição
+    }
+
+    function closeAllModals() {
+        modals.forEach(modal => {
+            if (!modal.classList.contains('hidden')) {
+                closeModal(modal);
+            }
+        });
+    }
+
+    // Lógica do Acordeão (FAQ)
+    accordionItems.forEach(item => {
+        const header = item.querySelector('.accordion-header');
+        header.addEventListener('click', () => {
+            // Fecha outros itens abertos
+            accordionItems.forEach(otherItem => {
+                if (otherItem !== item && otherItem.classList.contains('active')) {
+                    otherItem.classList.remove('active');
+                }
+            });
+            // Alterna o item clicado
+            item.classList.toggle('active');
+        });
+    });
+
+  </script>
+
+</body>
+</html>
+
