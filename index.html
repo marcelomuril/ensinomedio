@@ -1,514 +1,409 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Desvendando o Ensino Médio</title>
-  
-  <!-- Tailwind CSS -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  
-  <!-- Font Awesome (Ícones) -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-  
-  <!-- Google Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
-  
-  <style>
-    /* Estilos personalizados */
-    body {
-      font-family: 'Poppins', sans-serif;
-    }
-    .modal-backdrop {
-      transition: opacity 0.3s ease-in-out;
-    }
-    .modal-content {
-      transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
-      /* Padrão de fundo sutil para os modais */
-      background-image: radial-gradient(#e5e7eb 1px, transparent 1px);
-      background-size: 16px 16px;
-    }
-    .accordion-content {
-      max-height: 0;
-      overflow: hidden;
-      transition: max-height 0.4s ease-in-out;
-    }
-    .accordion-item.active .accordion-content {
-      max-height: 500px; /* Altura suficiente para o conteúdo */
-    }
-    .accordion-item.active .accordion-icon {
-      transform: rotate(180deg);
-    }
-    .card-hover-effect {
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-    .card-hover-effect:hover {
-        transform: translateY(-10px);
-        box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
-    }
-    /* Animações Tailwind */
-    @keyframes fadeInDown {
-      0% {
-        opacity: 0;
-        transform: translateY(-20px);
-      }
-      100% {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-    @keyframes fadeInUp {
-      0% {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-      100% {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-    .animate-fade-in-down {
-      animation: fadeInDown 0.8s ease-out forwards;
-    }
-    .animate-fade-in-up {
-      animation: fadeInUp 0.8s ease-out 0.3s forwards;
-      opacity: 0;
-    }
-  </style>
-</head>
-<body class="bg-gray-100">
-
-  <!-- Cabeçalho -->
-  <header class="bg-gradient-to-r from-purple-600 to-blue-500 text-white text-center py-20 px-6">
-    <h1 class="text-4xl md:text-6xl font-extrabold mb-4 animate-fade-in-down">Desvendando o Ensino Médio</h1>
-    <p class="text-lg md:text-xl max-w-3xl mx-auto animate-fade-in-up">Qual é a sua praia? Explore as áreas de estudo e descubra o caminho que mais combina com você!</p>
-  </header>
-
-  <!-- Conteúdo Principal -->
-  <main class="container mx-auto px-6 py-16">
-    <div class="text-center mb-12">
-      <h2 class="text-3xl font-bold text-gray-800">Navegue pelas Áreas do Conhecimento</h2>
-      <p class="text-gray-600 mt-2">Clique em um card para ver os detalhes, profissões e tirar suas dúvidas.</p>
-    </div>
-
-    <!-- Grid de Cards -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-      
-      <!-- Card Linguagens -->
-      <div class="card-hover-effect bg-white rounded-2xl shadow-lg p-8 text-center cursor-pointer" onclick="openModal('linguagens')">
-        <i class="fas fa-comments text-5xl text-red-500 mb-4"></i>
-        <h3 class="text-2xl font-bold text-gray-800">Linguagens</h3>
-        <p class="text-gray-500 mt-2">Comunicação, arte e cultura.</p>
-      </div>
-
-      <!-- Card Humanas -->
-      <div class="card-hover-effect bg-white rounded-2xl shadow-lg p-8 text-center cursor-pointer" onclick="openModal('humanas')">
-        <i class="fas fa-users text-5xl text-yellow-500 mb-4"></i>
-        <h3 class="text-2xl font-bold text-gray-800">Ciências Humanas</h3>
-        <p class="text-gray-500 mt-2">Sociedade, história e pensamento.</p>
-      </div>
-
-      <!-- Card Natureza -->
-      <div class="card-hover-effect bg-white rounded-2xl shadow-lg p-8 text-center cursor-pointer" onclick="openModal('natureza')">
-        <i class="fas fa-flask text-5xl text-green-500 mb-4"></i>
-        <h3 class="text-2xl font-bold text-gray-800">Ciências da Natureza</h3>
-        <p class="text-gray-500 mt-2">Vida, universo e fenômenos.</p>
-      </div>
-
-      <!-- Card Matemática -->
-      <div class="card-hover-effect bg-white rounded-2xl shadow-lg p-8 text-center cursor-pointer" onclick="openModal('matematica')">
-        <i class="fas fa-calculator text-5xl text-blue-500 mb-4"></i>
-        <h3 class="text-2xl font-bold text-gray-800">Matemática</h3>
-        <p class="text-gray-500 mt-2">Lógica, números e tecnologia.</p>
-      </div>
-
-    </div>
-
-    <div class="text-center mt-16 mb-12">
-        <h2 class="text-3xl font-bold text-gray-800">Opções de Ensino Técnico Integrado</h2>
-        <p class="text-gray-600 mt-2">Aprenda uma profissão junto com o Ensino Médio e prepare-se para o mercado!</p>
-    </div>
-
-    <!-- Grid de Cursos Técnicos -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-        <!-- Card Agronegócio -->
-        <div class="card-hover-effect bg-white rounded-2xl shadow-lg p-8 text-center cursor-pointer" onclick="openModal('agro')">
-            <i class="fas fa-tractor text-5xl text-lime-600 mb-4"></i>
-            <h3 class="text-2xl font-bold text-gray-800">Agronegócio</h3>
-        </div>
-        <!-- Card Administração -->
-        <div class="card-hover-effect bg-white rounded-2xl shadow-lg p-8 text-center cursor-pointer" onclick="openModal('admin')">
-            <i class="fas fa-chart-line text-5xl text-indigo-500 mb-4"></i>
-            <h3 class="text-2xl font-bold text-gray-800">Administração</h3>
-        </div>
-        <!-- Card Eletromecânica -->
-        <div class="card-hover-effect bg-white rounded-2xl shadow-lg p-8 text-center cursor-pointer" onclick="openModal('eletro')">
-            <i class="fas fa-robot text-5xl text-gray-600 mb-4"></i>
-            <h3 class="text-2xl font-bold text-gray-800">Eletromecânica</h3>
-        </div>
-    </div>
-  </main>
-  
-  <!-- Modals -->
-  <div id="modal-container" class="fixed inset-0 z-50 overflow-y-auto hidden">
-    <!-- Fundo Escuro -->
-    <div id="modal-backdrop" class="fixed inset-0 bg-black bg-opacity-60" onclick="closeAllModals()"></div>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard de Aptidão (Versão Final)</title>
     
-    <!-- Conteúdo dos Modals -->
-    <div class="flex items-center justify-center min-h-screen p-4">
-      
-      <!-- Modal: Linguagens -->
-      <div id="modal-linguagens" class="modal-content relative bg-white w-full max-w-5xl rounded-2xl shadow-2xl p-8 md:p-12 transform scale-95 opacity-0 hidden">
-        <button onclick="closeAllModals()" class="absolute top-4 right-6 text-3xl text-gray-400 hover:text-gray-800 transition">&times;</button>
-        <h2 class="text-4xl font-extrabold text-red-500 mb-6">Linguagens e suas Tecnologias</h2>
-        <p class="mb-8 text-lg text-gray-600">Esta área foca na arte da comunicação, na expressão de ideias, na interpretação de culturas e na criação artística. É o estudo de como nos comunicamos, seja por palavras, imagens ou sons.</p>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <style>
+        :root {
+            --bg-color: #f0f2f5;
+            --card-bg-color: #ffffff;
+            --primary-text-color: #1c1e21;
+            --secondary-text-color: #606770;
+            --primary-color: #0d6efd;
+            --secondary-color: #6c757d;
+            --accent-color: #198754;
+            --border-color: #dee2e6;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--primary-text-color);
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            text-align: center;
+            color: var(--primary-color);
+            margin-bottom: 30px;
+        }
         
-        <div class="grid md:grid-cols-2 gap-8 mb-8">
-            <div>
-                <h4 class="font-bold text-xl mb-3 text-gray-700 flex items-center"><i class="fas fa-user-check fa-fw mr-3 text-red-400"></i>Perfil do Estudante:</h4>
-                <ul class="list-inside text-gray-600 text-lg space-y-2">
-                    <li class="flex items-start"><i class="fas fa-paint-brush text-red-400 mt-1 mr-2"></i>Criativo e imaginativo</li>
-                    <li class="flex items-start"><i class="fas fa-book-open-reader text-red-400 mt-1 mr-2"></i>Gosta de ler e escrever</li>
-                    <li class="flex items-start"><i class="fas fa-bullhorn text-red-400 mt-1 mr-2"></i>Comunicativo e sociável</li>
-                    <li class="flex items-start"><i class="fas fa-film text-red-400 mt-1 mr-2"></i>Curte arte, música e cinema</li>
-                </ul>
-            </div>
-            <div>
-                <h4 class="font-bold text-xl mb-3 text-gray-700 flex items-center"><i class="fas fa-book fa-fw mr-3 text-red-400"></i>O que se estuda?</h4>
-                <p class="text-gray-600 text-lg">Português, Literatura, Redação, Inglês, Espanhol e Artes.</p>
-            </div>
-        </div>
+        /* Seção do Gráfico */
+        .dashboard {
+            background: var(--card-bg-color);
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            padding: 30px;
+            margin-bottom: 40px;
+        }
 
-        <h4 class="font-bold text-xl mb-4 text-gray-700 flex items-center"><i class="fas fa-briefcase fa-fw mr-3 text-red-400"></i>Possíveis Profissões:</h4>
-        <div class="flex flex-wrap gap-4 mb-8">
-            <span class="bg-red-100 text-red-800 px-4 py-2 rounded-full text-base font-semibold">Jornalismo</span>
-            <span class="bg-red-100 text-red-800 px-4 py-2 rounded-full text-base font-semibold">Publicidade</span>
-            <span class="bg-red-100 text-red-800 px-4 py-2 rounded-full text-base font-semibold">Design Gráfico</span>
-            <span class="bg-red-100 text-red-800 px-4 py-2 rounded-full text-base font-semibold">Cinema</span>
-            <span class="bg-red-100 text-red-800 px-4 py-2 rounded-full text-base font-semibold">Letras</span>
-        </div>
+        .dashboard h2 {
+            font-size: 1.5rem;
+            margin-top: 0;
+            text-align: center;
+            color: var(--secondary-text-color);
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 15px;
+            margin-bottom: 25px;
+        }
+
+        .chart-container {
+            position: relative;
+            height: 380px;
+            width: 100%;
+            max-width: 480px;
+            margin: auto;
+        }
+
+        /* Seção da Tabela de Dados */
+        .data-section {
+            background: var(--card-bg-color);
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            padding: 30px;
+        }
         
-        <!-- Tira-Dúvidas (FAQ) -->
-        <div class="space-y-3">
-            <h4 class="font-bold text-xl mb-3 text-gray-700 flex items-center"><i class="fas fa-question-circle fa-fw mr-3 text-red-400"></i>Tira-Dúvidas:</h4>
-            <div class="accordion-item border-2 border-gray-200 rounded-lg">
-                <button class="accordion-header w-full text-left p-4 text-lg font-semibold flex justify-between items-center">Preciso ser um gênio em português?<i class="fas fa-chevron-down accordion-icon transition-transform"></i></button>
-                <div class="accordion-content px-4 pb-4 text-gray-600 text-base">Não! O mais importante é ter interesse em comunicação e vontade de aprender a se expressar melhor. A área te ajuda a desenvolver essas habilidades.</div>
-            </div>
-             <div class="accordion-item border-2 border-gray-200 rounded-lg">
-                <button class="accordion-header w-full text-left p-4 text-lg font-semibold flex justify-between items-center">Essa área é só pra quem quer ser professor?<i class="fas fa-chevron-down accordion-icon transition-transform"></i></button>
-                <div class="accordion-content px-4 pb-4 text-gray-600 text-base">Definitivamente não! As opções são vastas, incluindo marketing, criação de conteúdo para internet, jornalismo, design, roteiro para games e muito mais.</div>
-            </div>
-        </div>
-      </div>
+        .filters {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 25px;
+        }
 
-      <!-- Modal: Humanas -->
-      <div id="modal-humanas" class="modal-content relative bg-white w-full max-w-5xl rounded-2xl shadow-2xl p-8 md:p-12 transform scale-95 opacity-0 hidden">
-         <button onclick="closeAllModals()" class="absolute top-4 right-6 text-3xl text-gray-400 hover:text-gray-800 transition">&times;</button>
-        <h2 class="text-4xl font-extrabold text-yellow-500 mb-6">Ciências Humanas e Sociais</h2>
-        <p class="mb-8 text-lg text-gray-600">Aqui, o foco é entender o ser humano e a sociedade. Estudamos o passado para compreender o presente, analisamos as diferentes culturas, o comportamento das pessoas e a organização política do mundo.</p>
-         <div class="grid md:grid-cols-2 gap-8 mb-8">
-            <div>
-                <h4 class="font-bold text-xl mb-3 text-gray-700 flex items-center"><i class="fas fa-user-check fa-fw mr-3 text-yellow-400"></i>Perfil do Estudante:</h4>
-                <ul class="list-inside text-gray-600 text-lg space-y-2">
-                    <li class="flex items-start"><i class="fas fa-search text-yellow-400 mt-1 mr-2"></i>Curioso sobre o porquê das coisas</li>
-                    <li class="flex items-start"><i class="fas fa-comments text-yellow-400 mt-1 mr-2"></i>Gosta de debater e argumentar</li>
-                    <li class="flex items-start"><i class="fas fa-handshake text-yellow-400 mt-1 mr-2"></i>Interessado em questões sociais</li>
-                    <li class="flex items-start"><i class="fas fa-newspaper text-yellow-400 mt-1 mr-2"></i>Lê notícias e se informa</li>
-                </ul>
-            </div>
-            <div>
-                <h4 class="font-bold text-xl mb-3 text-gray-700 flex items-center"><i class="fas fa-book fa-fw mr-3 text-yellow-400"></i>O que se estuda?</h4>
-                <p class="text-gray-600 text-lg">História, Geografia, Sociologia e Filosofia.</p>
-            </div>
-        </div>
-        <h4 class="font-bold text-xl mb-4 text-gray-700 flex items-center"><i class="fas fa-briefcase fa-fw mr-3 text-yellow-400"></i>Possíveis Profissões:</h4>
-        <div class="flex flex-wrap gap-4 mb-8">
-            <span class="bg-yellow-100 text-yellow-800 px-4 py-2 rounded-full text-base font-semibold">Direito</span>
-            <span class="bg-yellow-100 text-yellow-800 px-4 py-2 rounded-full text-base font-semibold">Psicologia</span>
-            <span class="bg-yellow-100 text-yellow-800 px-4 py-2 rounded-full text-base font-semibold">Relações Internacionais</span>
-            <span class="bg-yellow-100 text-yellow-800 px-4 py-2 rounded-full text-base font-semibold">Jornalismo</span>
-            <span class="bg-yellow-100 text-yellow-800 px-4 py-2 rounded-full text-base font-semibold">Serviço Social</span>
-        </div>
-        <div class="space-y-3">
-            <h4 class="font-bold text-xl mb-3 text-gray-700 flex items-center"><i class="fas fa-question-circle fa-fw mr-3 text-yellow-400"></i>Tira-Dúvidas:</h4>
-            <div class="accordion-item border-2 border-gray-200 rounded-lg">
-                <button class="accordion-header w-full text-left p-4 text-lg font-semibold flex justify-between items-center">É uma área com pouco emprego?<i class="fas fa-chevron-down accordion-icon transition-transform"></i></button>
-                <div class="accordion-content px-4 pb-4 text-gray-600 text-base">Isso é um mito! Profissionais de Humanas são essenciais em empresas, governos e ONGs. A capacidade de analisar cenários e entender pessoas é muito valorizada.</div>
-            </div>
-             <div class="accordion-item border-2 border-gray-200 rounded-lg">
-                <button class="accordion-header w-full text-left p-4 text-lg font-semibold flex justify-between items-center">Preciso gostar de política?<i class="fas fa-chevron-down accordion-icon transition-transform"></i></button>
-                <div class="accordion-content px-4 pb-4 text-gray-600 text-base">Não precisa ser um especialista, mas é importante ter interesse em como a sociedade se organiza. A política é parte disso, mas a área vai muito além.</div>
-            </div>
-        </div>
-      </div>
+        .filters label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--secondary-text-color);
+        }
+        
+        .filters select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            background-color: #fff;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23606770%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E');
+            background-repeat: no-repeat;
+            background-position: right 15px top 50%;
+            background-size: 0.65em auto;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
 
-       <div id="modal-natureza" class="modal-content relative bg-white w-full max-w-5xl rounded-2xl shadow-2xl p-8 md:p-12 transform scale-95 opacity-0 hidden">
-        <button onclick="closeAllModals()" class="absolute top-4 right-6 text-3xl text-gray-400 hover:text-gray-800 transition">&times;</button>
-        <h2 class="text-4xl font-extrabold text-green-500 mb-6">Ciências da Natureza e suas Tecnologias</h2>
-        <p class="mb-8 text-lg text-gray-600">É a área dos curiosos que querem entender como a vida, o universo e tudo mais funcionam. Envolve investigações, experimentos e a aplicação da ciência para resolver problemas práticos e criar novas tecnologias.</p>
-         <div class="grid md:grid-cols-2 gap-8 mb-8">
-            <div>
-                <h4 class="font-bold text-xl mb-3 text-gray-700 flex items-center"><i class="fas fa-user-check fa-fw mr-3 text-green-400"></i>Perfil do Estudante:</h4>
-                <ul class="list-inside text-gray-600 text-lg space-y-2">
-                    <li class="flex items-start"><i class="fas fa-microscope text-green-400 mt-1 mr-2"></i>Investigativo e observador</li>
-                    <li class="flex items-start"><i class="fas fa-puzzle-piece text-green-400 mt-1 mr-2"></i>Gosta de resolver problemas</li>
-                    <li class="flex items-start"><i class="fas fa-seedling text-green-400 mt-1 mr-2"></i>Se interessa por tecnologia e natureza</li>
-                    <li class="flex items-start"><i class="fas fa-vial text-green-400 mt-1 mr-2"></i>Curte atividades práticas</li>
-                </ul>
-            </div>
-            <div>
-                <h4 class="font-bold text-xl mb-3 text-gray-700 flex items-center"><i class="fas fa-book fa-fw mr-3 text-green-400"></i>O que se estuda?</h4>
-                <p class="text-gray-600 text-lg">Biologia, Física e Química.</p>
-            </div>
-        </div>
-        <h4 class="font-bold text-xl mb-4 text-gray-700 flex items-center"><i class="fas fa-briefcase fa-fw mr-3 text-green-400"></i>Possíveis Profissões:</h4>
-        <div class="flex flex-wrap gap-4 mb-8">
-            <span class="bg-green-100 text-green-800 px-4 py-2 rounded-full text-base font-semibold">Medicina</span>
-            <span class="bg-green-100 text-green-800 px-4 py-2 rounded-full text-base font-semibold">Engenharia Ambiental</span>
-            <span class="bg-green-100 text-green-800 px-4 py-2 rounded-full text-base font-semibold">Farmácia</span>
-            <span class="bg-green-100 text-green-800 px-4 py-2 rounded-full text-base font-semibold">Nutrição</span>
-            <span class="bg-green-100 text-green-800 px-4 py-2 rounded-full text-base font-semibold">Biomedicina</span>
-        </div>
-        <div class="space-y-3">
-            <h4 class="font-bold text-xl mb-3 text-gray-700 flex items-center"><i class="fas fa-question-circle fa-fw mr-3 text-green-400"></i>Tira-Dúvidas:</h4>
-            <div class="accordion-item border-2 border-gray-200 rounded-lg">
-                <button class="accordion-header w-full text-left p-4 text-lg font-semibold flex justify-between items-center">Preciso ser bom em matemática?<i class="fas fa-chevron-down accordion-icon transition-transform"></i></button>
-                <div class="accordion-content px-4 pb-4 text-gray-600 text-base">A matemática é uma ferramenta importante, principalmente em Física e Química. Mas não precisa ser um gênio! O foco é usar a lógica para entender os fenômenos.</div>
-            </div>
-             <div class="accordion-item border-2 border-gray-200 rounded-lg">
-                <button class="accordion-header w-full text-left p-4 text-lg font-semibold flex justify-between items-center">O trabalho é só em laboratório?<i class="fas fa-chevron-down accordion-icon transition-transform"></i></button>
-                <div class="accordion-content px-4 pb-4 text-gray-600 text-base">Não! Você pode trabalhar em campo (como biólogos e engenheiros ambientais), em hospitais, indústrias, consultorias e até no desenvolvimento de produtos.</div>
-            </div>
-        </div>
-      </div>
-      
-       <div id="modal-matematica" class="modal-content relative bg-white w-full max-w-5xl rounded-2xl shadow-2xl p-8 md:p-12 transform scale-95 opacity-0 hidden">
-        <button onclick="closeAllModals()" class="absolute top-4 right-6 text-3xl text-gray-400 hover:text-gray-800 transition">&times;</button>
-        <h2 class="text-4xl font-extrabold text-blue-500 mb-6">Matemática e suas Tecnologias</h2>
-        <p class="mb-8 text-lg text-gray-600">Mais do que apenas números, esta área é sobre raciocínio lógico, resolução de problemas e a criação de modelos para entender o mundo. É a base para todas as engenharias, para a computação e para a análise de dados.</p>
-         <div class="grid md:grid-cols-2 gap-8 mb-8">
-            <div>
-                <h4 class="font-bold text-xl mb-3 text-gray-700 flex items-center"><i class="fas fa-user-check fa-fw mr-3 text-blue-400"></i>Perfil do Estudante:</h4>
-                <ul class="list-inside text-gray-600 text-lg space-y-2">
-                    <li class="flex items-start"><i class="fas fa-brain text-blue-400 mt-1 mr-2"></i>Raciocínio lógico e abstrato</li>
-                    <li class="flex items-start"><i class="fas fa-dice-d6 text-blue-400 mt-1 mr-2"></i>Gosta de desafios e quebra-cabeças</li>
-                    <li class="flex items-start"><i class="fas fa-clipboard-check text-blue-400 mt-1 mr-2"></i>Organizado e metódico</li>
-                    <li class="flex items-start"><i class="fas fa-laptop-code text-blue-400 mt-1 mr-2"></i>Interessado em tecnologia</li>
-                </ul>
-            </div>
-            <div>
-                <h4 class="font-bold text-xl mb-3 text-gray-700 flex items-center"><i class="fas fa-book fa-fw mr-3 text-blue-400"></i>O que se estuda?</h4>
-                <p class="text-gray-600 text-lg">Álgebra, Geometria, Estatística, Lógica e Computação.</p>
-            </div>
-        </div>
-        <h4 class="font-bold text-xl mb-4 text-gray-700 flex items-center"><i class="fas fa-briefcase fa-fw mr-3 text-blue-400"></i>Possíveis Profissões:</h4>
-        <div class="flex flex-wrap gap-4 mb-8">
-            <span class="bg-blue-100 text-blue-800 px-4 py-2 rounded-full text-base font-semibold">Engenharias</span>
-            <span class="bg-blue-100 text-blue-800 px-4 py-2 rounded-full text-base font-semibold">Ciência da Computação</span>
-            <span class="bg-blue-100 text-blue-800 px-4 py-2 rounded-full text-base font-semibold">Análise de Sistemas</span>
-            <span class="bg-blue-100 text-blue-800 px-4 py-2 rounded-full text-base font-semibold">Economia</span>
-            <span class="bg-blue-100 text-blue-800 px-4 py-2 rounded-full text-base font-semibold">Estatística</span>
-        </div>
-        <div class="space-y-3">
-            <h4 class="font-bold text-xl mb-3 text-gray-700 flex items-center"><i class="fas fa-question-circle fa-fw mr-3 text-blue-400"></i>Tira-Dúvidas:</h4>
-            <div class="accordion-item border-2 border-gray-200 rounded-lg">
-                <button class="accordion-header w-full text-left p-4 text-lg font-semibold flex justify-between items-center">O que posso fazer além de dar aula?<i class="fas fa-chevron-down accordion-icon transition-transform"></i></button>
-                <div class="accordion-content px-4 pb-4 text-gray-600 text-base">Muitas coisas! Você pode trabalhar no mercado financeiro, criar softwares e aplicativos, analisar dados para grandes empresas (Big Data), desenvolver inteligência artificial e muito mais.</div>
-            </div>
-             <div class="accordion-item border-2 border-gray-200 rounded-lg">
-                <button class="accordion-header w-full text-left p-4 text-lg font-semibold flex justify-between items-center">Preciso ser um gênio dos números?<i class="fas fa-chevron-down accordion-icon transition-transform"></i></button>
-                <div class="accordion-content px-4 pb-4 text-gray-600 text-base">O mais importante é gostar de pensar de forma lógica e não ter medo de desafios. A matemática é uma habilidade que se desenvolve com a prática, como um esporte.</div>
-            </div>
-        </div>
-      </div>
+        .filters select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.25);
+        }
 
-       <div id="modal-agro" class="modal-content relative bg-white w-full max-w-5xl rounded-2xl shadow-2xl p-8 md:p-12 transform scale-95 opacity-0 hidden">
-        <button onclick="closeAllModals()" class="absolute top-4 right-6 text-3xl text-gray-400 hover:text-gray-800 transition">&times;</button>
-        <h2 class="text-4xl font-extrabold text-lime-600 mb-6">Técnico em Agronegócio</h2>
-        <p class="mb-8 text-lg text-gray-600">Este curso forma profissionais para atuar na gestão do campo, combinando tecnologia e administração para melhorar a produção de alimentos de forma sustentável. Você aprende desde o plantio até a venda do produto final.</p>
-         <div class="grid md:grid-cols-2 gap-8 mb-8">
-            <div>
-                <h4 class="font-bold text-xl mb-3 text-gray-700 flex items-center"><i class="fas fa-user-check fa-fw mr-3 text-lime-500"></i>Perfil do Estudante:</h4>
-                <ul class="list-inside text-gray-600 text-lg space-y-2">
-                    <li class="flex items-start"><i class="fas fa-leaf text-lime-500 mt-1 mr-2"></i>Gosta de natureza e tecnologia</li>
-                    <li class="flex items-start"><i class="fas fa-lightbulb text-lime-500 mt-1 mr-2"></i>Tem espírito empreendedor</li>
-                    <li class="flex items-start"><i class="fas fa-seedling text-lime-500 mt-1 mr-2"></i>Se interessa por biologia e gestão</li>
-                    <li class="flex items-start"><i class="fas fa-tools text-lime-500 mt-1 mr-2"></i>Busca soluções práticas</li>
-                </ul>
-            </div>
-            <div>
-                <h4 class="font-bold text-xl mb-3 text-gray-700 flex items-center"><i class="fas fa-book fa-fw mr-3 text-lime-500"></i>O que se estuda?</h4>
-                <p class="text-gray-600 text-lg">Gestão Rural, Zootecnia, Agricultura de Precisão, Sustentabilidade.</p>
-            </div>
-        </div>
-        <h4 class="font-bold text-xl mb-4 text-gray-700 flex items-center"><i class="fas fa-briefcase fa-fw mr-3 text-lime-500"></i>Possíveis Atuações:</h4>
-        <div class="flex flex-wrap gap-4 mb-8">
-            <span class="bg-lime-100 text-lime-800 px-4 py-2 rounded-full text-base font-semibold">Gestão de Fazendas</span>
-            <span class="bg-lime-100 text-lime-800 px-4 py-2 rounded-full text-base font-semibold">Empresas de insumos</span>
-            <span class="bg-lime-100 text-lime-800 px-4 py-2 rounded-full text-base font-semibold">Consultoria Agrícola</span>
-            <span class="bg-lime-100 text-lime-800 px-4 py-2 rounded-full text-base font-semibold">Agroindústrias</span>
-        </div>
-        <div class="space-y-3">
-            <h4 class="font-bold text-xl mb-3 text-gray-700 flex items-center"><i class="fas fa-question-circle fa-fw mr-3 text-lime-500"></i>Tira-Dúvidas:</h4>
-            <div class="accordion-item border-2 border-gray-200 rounded-lg">
-                <button class="accordion-header w-full text-left p-4 text-lg font-semibold flex justify-between items-center">Preciso morar na fazenda?<i class="fas fa-chevron-down accordion-icon transition-transform"></i></button>
-                <div class="accordion-content px-4 pb-4 text-gray-600 text-base">Não! O agronegócio moderno envolve muita tecnologia e gestão que acontecem na cidade, em escritórios, laboratórios e empresas que vendem produtos para o campo.</div>
-            </div>
-             <div class="accordion-item border-2 border-gray-200 rounded-lg">
-                <button class="accordion-header w-full text-left p-4 text-lg font-semibold flex justify-between items-center">É só para quem vai trabalhar com plantas?<i class="fas fa-chevron-down accordion-icon transition-transform"></i></button>
-                <div class="accordion-content px-4 pb-4 text-gray-600 text-base">De jeito nenhum! O agronegócio também cuida da criação de animais (zootecnia), do controle de qualidade de alimentos, da operação de máquinas e drones, e da venda da produção.</div>
-            </div>
-        </div>
-      </div>
-      
-       <div id="modal-admin" class="modal-content relative bg-white w-full max-w-5xl rounded-2xl shadow-2xl p-8 md:p-12 transform scale-95 opacity-0 hidden">
-        <button onclick="closeAllModals()" class="absolute top-4 right-6 text-3xl text-gray-400 hover:text-gray-800 transition">&times;</button>
-        <h2 class="text-4xl font-extrabold text-indigo-500 mb-6">Técnico em Administração</h2>
-        <p class="mb-8 text-lg text-gray-600">O curso ideal para quem tem perfil de liderança e organização. Você aprende as ferramentas para gerenciar os recursos de uma empresa (pessoas, dinheiro, materiais) e a tomar decisões estratégicas para o negócio crescer.</p>
-         <div class="grid md:grid-cols-2 gap-8 mb-8">
-            <div>
-                <h4 class="font-bold text-xl mb-3 text-gray-700 flex items-center"><i class="fas fa-user-check fa-fw mr-3 text-indigo-400"></i>Perfil do Estudante:</h4>
-                <ul class="list-inside text-gray-600 text-lg space-y-2">
-                    <li class="flex items-start"><i class="fas fa-calendar-check text-indigo-400 mt-1 mr-2"></i>Organizado e proativo</li>
-                    <li class="flex items-start"><i class="fas fa-users text-indigo-400 mt-1 mr-2"></i>Gosta de planejar e liderar</li>
-                    <li class="flex items-start"><i class="fas fa-comments-dollar text-indigo-400 mt-1 mr-2"></i>Bom em comunicação</li>
-                    <li class="flex items-start"><i class="fas fa-chart-pie text-indigo-400 mt-1 mr-2"></i>Tem visão de negócios</li>
-                </ul>
-            </div>
-            <div>
-                <h4 class="font-bold text-xl mb-3 text-gray-700 flex items-center"><i class="fas fa-book fa-fw mr-3 text-indigo-400"></i>O que se estuda?</h4>
-                <p class="text-gray-600 text-lg">Recursos Humanos, Finanças, Marketing, Logística, Empreendedorismo.</p>
-            </div>
-        </div>
-        <h4 class="font-bold text-xl mb-4 text-gray-700 flex items-center"><i class="fas fa-briefcase fa-fw mr-3 text-indigo-400"></i>Possíveis Atuações:</h4>
-        <div class="flex flex-wrap gap-4 mb-8">
-            <span class="bg-indigo-100 text-indigo-800 px-4 py-2 rounded-full text-base font-semibold">Assistente Administrativo</span>
-            <span class="bg-indigo-100 text-indigo-800 px-4 py-2 rounded-full text-base font-semibold">Setor Financeiro</span>
-            <span class="bg-indigo-100 text-indigo-800 px-4 py-2 rounded-full text-base font-semibold">Recursos Humanos</span>
-            <span class="bg-indigo-100 text-indigo-800 px-4 py-2 rounded-full text-base font-semibold">Seu próprio negócio</span>
-        </div>
-        <div class="space-y-3">
-            <h4 class="font-bold text-xl mb-3 text-gray-700 flex items-center"><i class="fas fa-question-circle fa-fw mr-3 text-indigo-400"></i>Tira-Dúvidas:</h4>
-            <div class="accordion-item border-2 border-gray-200 rounded-lg">
-                <button class="accordion-header w-full text-left p-4 text-lg font-semibold flex justify-between items-center">Vou ficar só preenchendo papelada?<i class="fas fa-chevron-down accordion-icon transition-transform"></i></button>
-                <div class="accordion-content px-4 pb-4 text-gray-600 text-base">Não! Um técnico em administração ajuda a organizar equipes, a controlar o dinheiro da empresa, a criar campanhas de marketing e a pensar em ideias para vender mais. É uma área muito dinâmica.</div>
-            </div>
-             <div class="accordion-item border-2 border-gray-200 rounded-lg">
-                <button class="accordion-header w-full text-left p-4 text-lg font-semibold flex justify-between items-center">Já posso abrir minha empresa?<i class="fas fa-chevron-down accordion-icon transition-transform"></i></button>
-                <div class="accordion-content px-4 pb-4 text-gray-600 text-base">O curso te dará as ferramentas e a confiança para começar! Você vai aprender sobre plano de negócios e empreendedorismo, e poderá sim iniciar seu próprio projeto ou uma pequena empresa.</div>
-            </div>
-        </div>
-      </div>
+        .table-wrapper { overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { padding: 15px; text-align: left; border-bottom: 1px solid var(--border-color); }
+        th { background-color: var(--primary-color); color: white; font-weight: 600; }
+        th:first-child { border-top-left-radius: 8px; }
+        th:last-child { border-top-right-radius: 8px; }
+        tr:last-child td { border-bottom: none; }
+        tr:hover { background-color: #f8f9fa; }
 
-       <div id="modal-eletro" class="modal-content relative bg-white w-full max-w-5xl rounded-2xl shadow-2xl p-8 md:p-12 transform scale-95 opacity-0 hidden">
-        <button onclick="closeAllModals()" class="absolute top-4 right-6 text-3xl text-gray-400 hover:text-gray-800 transition">&times;</button>
-        <h2 class="text-4xl font-extrabold text-gray-700 mb-6">Técnico em Eletromecânica</h2>
-        <p class="mb-8 text-lg text-gray-600">Para quem gosta de colocar a mão na massa! Este curso une o melhor da elétrica, da mecânica e da automação para formar profissionais que montam, operam e fazem a manutenção de máquinas e sistemas industriais.</p>
-         <div class="grid md:grid-cols-2 gap-8 mb-8">
-            <div>
-                <h4 class="font-bold text-xl mb-3 text-gray-700 flex items-center"><i class="fas fa-user-check fa-fw mr-3 text-gray-500"></i>Perfil do Estudante:</h4>
-                <ul class="list-inside text-gray-600 text-lg space-y-2">
-                    <li class="flex items-start"><i class="fas fa-cogs text-gray-500 mt-1 mr-2"></i>Gosta de tecnologia e máquinas</li>
-                    <li class="flex items-start"><i class="fas fa-brain text-gray-500 mt-1 mr-2"></i>Raciocínio lógico para problemas</li>
-                    <li class="flex items-start"><i class="fas fa-wrench text-gray-500 mt-1 mr-2"></i>Habilidade com ferramentas</li>
-                    <li class="flex items-start"><i class="fas fa-industry text-gray-500 mt-1 mr-2"></i>Gosta de ver as coisas funcionando</li>
-                </ul>
-            </div>
-            <div>
-                <h4 class="font-bold text-xl mb-3 text-gray-700 flex items-center"><i class="fas fa-book fa-fw mr-3 text-gray-500"></i>O que se estuda?</h4>
-                <p class="text-gray-600 text-lg">Desenho Técnico, Automação, Robótica, Manutenção Industrial, Motores.</p>
-            </div>
-        </div>
-        <h4 class="font-bold text-xl mb-4 text-gray-700 flex items-center"><i class="fas fa-briefcase fa-fw mr-3 text-gray-500"></i>Possíveis Atuações:</h4>
-        <div class="flex flex-wrap gap-4 mb-8">
-            <span class="bg-gray-200 text-gray-800 px-4 py-2 rounded-full text-base font-semibold">Indústrias em geral</span>
-            <span class="bg-gray-200 text-gray-800 px-4 py-2 rounded-full text-base font-semibold">Manutenção de equipamentos</span>
-            <span class="bg-gray-200 text-gray-800 px-4 py-2 rounded-full text-base font-semibold">Projetos de automação</span>
-            <span class="bg-gray-200 text-gray-800 px-4 py-2 rounded-full text-base font-semibold">Empresas de energia</span>
-        </div>
-        <div class="space-y-3">
-            <h4 class="font-bold text-xl mb-3 text-gray-700 flex items-center"><i class="fas fa-question-circle fa-fw mr-3 text-gray-500"></i>Tira-Dúvidas:</h4>
-            <div class="accordion-item border-2 border-gray-200 rounded-lg">
-                <button class="accordion-header w-full text-left p-4 text-lg font-semibold flex justify-between items-center">É um curso só para meninos?<i class="fas fa-chevron-down accordion-icon transition-transform"></i></button>
-                <div class="accordion-content px-4 pb-4 text-gray-600 text-base">Claro que não! Cada vez mais meninas estão se destacando na área, criando robôs, programando máquinas e liderando equipes na indústria. Habilidade não tem gênero!</div>
-            </div>
-             <div class="accordion-item border-2 border-gray-200 rounded-lg">
-                <button class="accordion-header w-full text-left p-4 text-lg font-semibold flex justify-between items-center">Preciso ser muito forte para mexer com máquinas?<i class="fas fa-chevron-down accordion-icon transition-transform"></i></button>
-                <div class="accordion-content px-4 pb-4 text-gray-600 text-base">Não, o mais importante é a inteligência e o jeito para resolver problemas. Hoje, a tecnologia e as ferramentas certas, como pontes rolantes e equipamentos de segurança, fazem o trabalho pesado.</div>
-            </div>
-        </div>
-      </div>
+        #count {
+            text-align: right;
+            margin-top: 15px;
+            font-style: italic;
+            color: var(--secondary-text-color);
+        }
+        
+        @media (max-width: 768px) {
+            .filters { grid-template-columns: 1fr; }
+            header h1 { font-size: 2rem; }
+        }
+    </style>
+</head>
+<body>
 
+    <div class="container">
+        <header>
+            <h1>Dashboard de Aptidões</h1>
+        </header>
+
+        <section class="dashboard">
+            <h2>Resultado Geral por Aptidão</h2>
+            <div class="chart-container">
+                <canvas id="aptitudeChart"></canvas>
+            </div>
+        </section>
+
+        <section class="data-section">
+            <div class="filters">
+                <div>
+                    <label for="nameFilter">Filtrar por Nome:</label>
+                    <select id="nameFilter"></select>
+                </div>
+                <div>
+                    <label for="aptitudeFilter">Filtrar por Aptidão:</label>
+                    <select id="aptitudeFilter"></select>
+                </div>
+            </div>
+            <div id="count"></div>
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>Turma</th>
+                            <th>Aptidão Principal</th>
+                        </tr>
+                    </thead>
+                    <tbody id="dataTable">
+                        </tbody>
+                </table>
+            </div>
+        </section>
     </div>
-  </div>
 
-  <script>
-    const modalContainer = document.getElementById('modal-container');
-    const modalBackdrop = document.getElementById('modal-backdrop');
-    const modals = document.querySelectorAll('.modal-content');
-    const accordionItems = document.querySelectorAll('.accordion-item');
+    <script>
+        // Dados completos e corrigidos da planilha
+        const studentData = [
+            {"nome": "Yasmin da Silva Lopes", "turma": "9D", "aptidao": "Humanas"},
+            {"nome": "Kyara Carnetti Fernandes", "turma": "9D", "aptidao": "Humanas"},
+            {"nome": "Eduardo Miguel de Oliveira Camargo", "turma": "9D", "aptidao": "Humanas"},
+            {"nome": "liliane guedes andrade", "turma": "9D", "aptidao": "Técnico em Agropecuária"},
+            {"nome": "ana clara dos santos", "turma": "9D", "aptidao": "Técnico em Agropecuária"},
+            {"nome": "João vitor sonza minosso", "turma": "9D", "aptidao": "Técnico em Administração"},
+            {"nome": "MARIA VITORIA BRIZOLA", "turma": "9D", "aptidao": "Humanas"},
+            {"nome": "Beatriz Constance Koether Muller", "turma": "9D", "aptidao": "Técnico em Administração"},
+            {"nome": "ANDRESSA DOS SANTOS", "turma": "9D", "aptidao": "Humanas"},
+            {"nome": "Lorenzo Serafim Funari", "turma": "9D", "aptidao": "Técnico em Administração"},
+            {"nome": "gabrieloliveiramoreno", "turma": "9D", "aptidao": "Linguagens"},
+            {"nome": "Victor Palhano Oliveira", "turma": "9D", "aptidao": "Linguagens"},
+            {"nome": "Maria Fernanda Costa Ziguer Almeida", "turma": "9D", "aptidao": "Técnico em Agropecuária"},
+            {"nome": "Andersson Gabriel Elizio Gonçalves", "turma": "9D", "aptidao": "Linguagens"},
+            {"nome": "Maria Beatriz Schneider", "turma": "9D", "aptidao": "Técnico em Eletromecânica"},
+            {"nome": "Vinicius Da Silva Corvalan", "turma": "9D", "aptidao": "Linguagens"},
+            {"nome": "Allana Estefany Santos Martins", "turma": "9D", "aptidao": "Ciências da Natureza"},
+            {"nome": "natalia aparecida arient dos anjos", "turma": "9D", "aptidao": "Humanas"},
+            {"nome": "jose lucas oliveira camargo", "turma": "9D", "aptidao": "Técnico em Agropecuária"},
+            {"nome": "Richard Wesley Braga Bello", "turma": "9D", "aptidao": "Ciências da Natureza"},
+            {"nome": "renan mateus ribas", "turma": "9D", "aptidao": "Técnico em Administração"},
+            {"nome": "Gustavo Taques Fernandes", "turma": "9D", "aptidao": "Técnico em Eletromecânica"},
+            {"nome": "eloisa.souza09@escola.pr.gov.br", "turma": "9D", "aptidao": "Linguagens"},
+            {"nome": "izabella stingelin de melo", "turma": "9C", "aptidao": "Humanas"},
+            {"nome": "João Vitor Da Silva Padilha", "turma": "9C", "aptidao": "Técnico em Administração"},
+            {"nome": "felipe da silva ramos", "turma": "9C", "aptidao": "Técnico em Administração"},
+            {"nome": "Alexander Silvestre Vieira", "turma": "9C", "aptidao": "Técnico em Administração"},
+            {"nome": "kemuel carlos", "turma": "9C", "aptidao": "Técnico em Administração"},
+            {"nome": "Victor Eduardo Cerutti Silva", "turma": "9C", "aptidao": "Técnico em Administração"},
+            {"nome": "jose marcos rocha arient", "turma": "9C", "aptidao": "Técnico em Eletromecânica"},
+            {"nome": "André Felipe Teixeira Fiorin", "turma": "9C", "aptidao": "Técnico em Eletromecânica"},
+            {"nome": "gabriela lara groze", "turma": "9C", "aptidao": "Técnico em Administração"},
+            {"nome": "Pedro Henrique correia de oliveira", "turma": "9C", "aptidao": "Técnico em Administração"},
+            {"nome": "willian schmidt de lima", "turma": "9C", "aptidao": "Ciências da Natureza"},
+            {"nome": "izabel do nascimento da silva", "turma": "9C", "aptidao": "Técnico em Agropecuária"},
+            {"nome": "isadora tesseroli ribeiro", "turma": "9C", "aptidao": "Humanas"},
+            {"nome": "Laura Regina Teixeira Cenci", "turma": "9C", "aptidao": "Linguagens"},
+            {"nome": "Isaque Guillande Nunes", "turma": "9C", "aptidao": "Técnico em Eletromecânica"},
+            {"nome": "brayan cruz de andrade", "turma": "9C", "aptidao": "Linguagens"},
+            {"nome": "Luiz Henrique da Rocha", "turma": "9C", "aptidao": "Técnico em Administração"},
+            {"nome": "Cristofer jesus dos anjos", "turma": "9C", "aptidao": "Técnico em Administração"},
+            {"nome": "Lauren Dos Santos Pereira", "turma": "9C", "aptidao": "Técnico em Agropecuária"},
+            {"nome": "Nathalyelen Markoski Pacheco", "turma": "9C", "aptidao": "Técnico em Administração"},
+            {"nome": "Karoline Ramirio da Silva", "turma": "9C", "aptidao": "Humanas"},
+            {"nome": "gilson gabriel silvestri tavares", "turma": "9C", "aptidao": "Técnico em Agropecuária"},
+            {"nome": "Peterson antonio camargo da costa", "turma": "9C", "aptidao": "Técnico em Eletromecânica"},
+            {"nome": "welinton guilherme antunes silveira", "turma": "9C", "aptidao": "Técnico em Eletromecânica"},
+            {"nome": "vinicius gabriel tortato", "turma": "9C", "aptidao": "Técnico em Eletromecânica"},
+            {"nome": "Natalia Ferreira Bittencourt Avila", "turma": "9A", "aptidao": "Linguagens"},
+            {"nome": "Yasmin da Silva Araujo", "turma": "9A", "aptidao": "Humanas"},
+            {"nome": "kethelyn apulinario silva", "turma": "9A", "aptidao": "Humanas"},
+            {"nome": "Arthur Metzler Moraes", "turma": "9A", "aptidao": "Técnico em Eletromecânica"},
+            {"nome": "Lauren Gabrieli da Silva Machado", "turma": "9A", "aptidao": "Ciências da Natureza"},
+            {"nome": "Antônia Gritten Oliveira", "turma": "9A", "aptidao": "Técnico em Agropecuária"},
+            {"nome": "José Augusto da rocha silveira", "turma": "9A", "aptidao": "Técnico em Agropecuária"},
+            {"nome": "Vinicius Estene Pedroso", "turma": "9A", "aptidao": "Técnico em Administração"},
+            {"nome": "Sofia Zambonin Siqueira", "turma": "9A", "aptidao": "Linguagens"},
+            {"nome": "Salma Ali Makki", "turma": "9A", "aptidao": "Técnico em Agropecuária"},
+            {"nome": "Allana de Almeida Cardoso", "turma": "9A", "aptidao": "Humanas"},
+            {"nome": "pedro henrique carlin", "turma": "9A", "aptidao": "Técnico em Agropecuária"},
+            {"nome": "Alice Metzler Bueno", "turma": "9A", "aptidao": "Humanas"},
+            {"nome": "Sebastian Da Silva Guedes", "turma": "9A", "aptidao": "Técnico em Administração"},
+            {"nome": "Gabriel Henrique Guedes", "turma": "9A", "aptidao": "Linguagens"},
+            {"nome": "Hisabella Turatto", "turma": "9A", "aptidao": "Técnico em Administração"},
+            {"nome": "Renan guilherme leiria kohler", "turma": "9A", "aptidao": "Técnico em Agropecuária"},
+            {"nome": "Arthur Henrique Birnfeld Carlim", "turma": "9A", "aptidao": "Técnico em Agropecuária"},
+            {"nome": "Pedro Antonio Taques dos Santos", "turma": "9A", "aptidao": "Linguagens"},
+            {"nome": "Jhennifer Victoria Ribas de Almeida Pasqual", "turma": "9A", "aptidao": "Humanas"},
+            {"nome": "davi pietro", "turma": "9A", "aptidao": "Técnico em Eletromecânica"},
+            {"nome": "pedro henrique antunes leite", "turma": "9A", "aptidao": "Linguagens"},
+            {"nome": "Andrya Vitória Dassoglio", "turma": "9A", "aptidao": "Humanas"},
+            {"nome": "Marcos Eduardo Pontes Chuarts", "turma": "9A", "aptidao": "Técnico em Eletromecânica"},
+            {"nome": "Diulia Gabrielly Favetti de Oliveira", "turma": "9A", "aptidao": "Linguagens"},
+            {"nome": "Kethelin Zaini Martins", "turma": "9A", "aptidao": "Humanas"},
+            {"nome": "Luara Fernanda Mendes", "turma": "9A", "aptidao": "Ciências da Natureza"},
+            {"nome": "gislaine vitoria da silva valentin", "turma": "9A", "aptidao": "Técnico em Administração"},
+            {"nome": "João Pedro Eufrazio Bomer", "turma": "9A", "aptidao": "Técnico em Eletromecânica"},
+            {"nome": "haziellah pires de souza", "turma": "9A", "aptidao": "Técnico em Agropecuária"},
+            {"nome": "eder rafael vais de mello", "turma": "9A", "aptidao": "Linguagens"},
+            {"nome": "Maitê Serafini da Silva", "turma": "9A", "aptidao": "Técnico em Administração"},
+            {"nome": "Helena Vitória Ferreira Pelentier", "turma": "9F", "aptidao": "Ciências da Natureza"},
+            {"nome": "bruna barbosa fonseca", "turma": "9F", "aptidao": "Técnico em Administração"},
+            {"nome": "raysa vitória correa", "turma": "9F", "aptidao": "Linguagens"},
+            {"nome": "naiara moraes de camargo", "turma": "9F", "aptidao": "Linguagens"},
+            {"nome": "Erick Mateus Buff MUNHYOZ", "turma": "9F", "aptidao": "Técnico em Eletromecânica"},
+            {"nome": "Rafaela Aparecida Rother", "turma": "9F", "aptidao": "Técnico em Agropecuária"},
+            {"nome": "Vitor Gabriel Vieira Matuella", "turma": "9F", "aptidao": "Técnico em Eletromecânica"},
+            {"nome": "Rafaela Aparecida Rother", "turma": "9F", "aptidao": "Técnico em Agropecuária"},
+            {"nome": "Gabriel Portes Machado Borges", "turma": "9F", "aptidao": "Ciências da Natureza"},
+            {"nome": "Isabela Gonçalves Kovari", "turma": "9F", "aptidao": "Ciências da Natureza"},
+            {"nome": "Thiffani Gabrieli Ribeiro Bueno", "turma": "9F", "aptidao": "Linguagens"},
+            {"nome": "Marcos Vinicius Marta da Silva", "turma": "9F", "aptidao": "Técnico em Eletromecânica"},
+            {"nome": "Ana Beatriz da Silva Buff", "turma": "9F", "aptidao": "Técnico em Agropecuária"},
+            {"nome": "Julia Vanessa Rempel Pinheiro de Miranda", "turma": "9F", "aptidao": "Linguagens"},
+            {"nome": "enzo henrique ribeiro ramos", "turma": "9F", "aptidao": "Ciências da Natureza"},
+            {"nome": "Gabrielly Garcia Carus", "turma": "9F", "aptidao": "Linguagens"},
+            {"nome": "nicoli dos santos da silva", "turma": "9F", "aptidao": "Linguagens"},
+            {"nome": "emmanuelle maria oliveira da silva", "turma": "9F", "aptidao": "Linguagens"},
+            {"nome": "Tainara Aparecida da Cruz Machado", "turma": "9F", "aptidao": "Técnico em Eletromecânica"},
+            {"nome": "giovana da silva lima", "turma": "9F", "aptidao": "Linguagens"},
+            {"nome": "rakelly morais lara", "turma": "9F", "aptidao": "Humanas"},
+            {"nome": "natanael felipe souza", "turma": "9F", "aptidao": "Técnico em Agropecuária"},
+            {"nome": "jeniffer amanda lopes", "turma": "9F", "aptidao": "Técnico em Administração"},
+            {"nome": "estefani ribeiro", "turma": "9E", "aptidao": "Técnico em Administração"},
+            {"nome": "vitoria cristina dos santos", "turma": "9E", "aptidao": "Técnico em Agropecuária"},
+            {"nome": "luiz otavio berlesi dalsegio", "turma": "9E", "aptidao": "Técnico em Agropecuária"},
+            {"nome": "adrian gabriel lima", "turma": "9F", "aptidao": "Técnico em Administração"},
+            {"nome": "brayan gabriel dos santos lauer", "turma": "9E", "aptidao": "Técnico em Agropecuária"},
+            {"nome": "Amanda da Luz Maciel", "turma": "9E", "aptidao": "Técnico em Agropecuária"},
+            {"nome": "adrielly munis geraldo", "turma": "9E", "aptidao": "Técnico em Agropecuária"},
+            {"nome": "Bernardo Maximiliano Maximus Abi", "turma": "9E", "aptidao": "Linguagens"},
+            {"nome": "eloize souza de andrade", "turma": "9E", "aptidao": "Técnico em Agropecuária"},
+            {"nome": "Luis Miguel Costa Caliberda", "turma": "9E", "aptidao": "Ciências da Natureza"},
+            {"nome": "Analice Assmann", "turma": "9E", "aptidao": "Ciências da Natureza"},
+            {"nome": "Andressa Camargo", "turma": "9E", "aptidao": "Técnico em Eletromecânica"},
+            {"nome": "Alana Martins mereles", "turma": "9E", "aptidao": "Ciências da Natureza"},
+            {"nome": "Isabelly Victória Marchiori Lens Marcondes", "turma": "9E", "aptidao": "Linguagens"},
+            {"nome": "DIULYA ARIELA ZANON PAGESKI", "turma": "9E", "aptidao": "Ciências da Natureza"},
+            {"nome": "Brendah Brasil", "turma": "9E", "aptidao": "Ciências da Natureza"},
+            {"nome": "Vanessa Dos Santos Alves", "turma": "9E", "aptidao": "Linguagens"},
+            {"nome": "Hanyel Carlos Selle Rodrigues", "turma": "9E", "aptidao": "Técnico em Agropecuária"},
+            {"nome": "Jose Francisco Debas Grando", "turma": "9E", "aptidao": "Linguagens"},
+            {"nome": "Samuel Henrique dos santos da silva", "turma": "9E", "aptidao": "Técnico em Administração"},
+            {"nome": "keila guedes santos lustoza", "turma": "9E", "aptidao": "Técnico em Agropecuária"},
+            {"nome": "hillary rodrigues mazeica", "turma": "9E", "aptidao": "Técnico em Agropecuária"},
+            {"nome": "keila guedes santos lustoza", "turma": "9E", "aptidao": "Técnico em Agropecuária"},
+            {"nome": "gabriellafernandesoliveirabatista", "turma": "9E", "aptidao": "Técnico em Agropecuária"},
+            {"nome": "lucas santos amorim campelo", "turma": "9B", "aptidao": "Ciências da Natureza"},
+            {"nome": "Milena do nascimento silva", "turma": "9B", "aptidao": "Humanas"},
+            {"nome": "Amanda Lemos De Lima", "turma": "9B", "aptidao": "Linguagens"},
+            {"nome": "Kaue wesley araujo alves", "turma": "9B", "aptidao": "Técnico em Administração"},
+            {"nome": "jheniffer cristina dos santos ferreira", "turma": "9B", "aptidao": "Ciências da Natureza"},
+            {"nome": "valentina conte fragoso", "turma": "9B", "aptidao": "Técnico em Administração"},
+            {"nome": "maria gabrielly correa", "turma": "9B", "aptidao": "Técnico em Administração"},
+            {"nome": "anna jullya santos oliveira", "turma": "9B", "aptidao": "Linguagens"},
+            {"nome": "Adryel xavier lechinoski", "turma": "9B", "aptidao": "Linguagens"},
+            {"nome": "arthur henrique perin", "turma": "9B", "aptidao": "Linguagens"},
+            {"nome": "Trynnity Abreu", "turma": "9B", "aptidao": "Linguagens"},
+            {"nome": "Isabely Doner dos Santos", "turma": "9B", "aptidao": "Técnico em Agropecuária"},
+            {"nome": "joao vinicius dos santos ruthes", "turma": "9B", "aptidao": "Técnico em Eletromecânica"},
+            {"nome": "Raul Lustoza Matte", "turma": "9B", "aptidao": "Técnico em Eletromecânica"},
+            {"nome": "Jhonathan Henrique Ribeiro", "turma": "9B", "aptidao": "Técnico em Agropecuária"},
+            {"nome": "Gustavo Santos Moraes", "turma": "9B", "aptidao": "Linguagens"},
+            {"nome": "Eros hebrayn Ferraz palhano", "turma": "9B", "aptidao": "Técnico em Administração"},
+            {"nome": "Antonio Caio de Oliveira Camargo", "turma": "9B", "aptidao": "Linguagens"},
+            {"nome": "Mauriem Sabrina dos santos", "turma": "9B", "aptidao": "Humanas"},
+            {"nome": "MARIANNA ZIGUER CAESAR", "turma": "9B", "aptidao": "Técnico em Administração"},
+            {"nome": "lorenzo.bello", "turma": "9B", "aptidao": "Humanas"},
+            {"nome": "Thayla cristina santana rosa", "turma": "9B", "aptidao": "Humanas"},
+            {"nome": "Deisi Ariely dos Santos Dorneles", "turma": "9B", "aptidao": "Humanas"},
+            {"nome": "Aysha Catarina Dangelis dos Santos", "turma": "9B", "aptidao": "Linguagens"}
+        ];
 
-    function openModal(modalId) {
-      modalContainer.classList.remove('hidden');
-      document.body.classList.add('overflow-hidden');
-      
-      const modal = document.getElementById(`modal-${modalId}`);
-      
-      // Animação de entrada
-      modalBackdrop.classList.remove('opacity-0');
-      modalBackdrop.classList.add('opacity-100');
-      modal.classList.remove('hidden');
-      setTimeout(() => {
-        modal.classList.remove('scale-95', 'opacity-0');
-        modal.classList.add('scale-100', 'opacity-100');
-      }, 50); // Pequeno delay para a transição funcionar
-    }
+        document.addEventListener('DOMContentLoaded', () => {
+            const nameFilter = document.getElementById('nameFilter');
+            const aptitudeFilter = document.getElementById('aptitudeFilter');
+            const dataTable = document.getElementById('dataTable');
+            const countElement = document.getElementById('count');
 
-    function closeModal(modal) {
-        // Animação de saída
-        modal.classList.add('scale-95', 'opacity-0');
-        modal.classList.remove('scale-100', 'opacity-100');
-        setTimeout(() => {
-            modal.classList.add('hidden');
-            // Esconder o container apenas se todos os modais estiverem escondidos
-            const anyModalVisible = Array.from(modals).some(m => !m.classList.contains('hidden'));
-            if (!anyModalVisible) {
-                modalBackdrop.classList.add('opacity-0');
-                modalBackdrop.classList.remove('opacity-100');
-                modalContainer.classList.add('hidden');
-                document.body.classList.remove('overflow-hidden');
-            }
-        }, 300); // Duração da transição
-    }
+            // Limpa os dados, como remover espaços extras
+            const cleanData = studentData.map(student => ({
+                ...student,
+                aptidao: student.aptidao.trim()
+            }));
 
-    function closeAllModals() {
-        modals.forEach(modal => {
-            if (!modal.classList.contains('hidden')) {
-                closeModal(modal);
-            }
-        });
-    }
+            // --- Lógica do Gráfico ---
+            const aptitudeCounts = cleanData.reduce((acc, student) => {
+                acc[student.aptidao] = (acc[student.aptidao] || 0) + 1;
+                return acc;
+            }, {});
 
-    // Lógica do Acordeão (FAQ)
-    accordionItems.forEach(item => {
-        const header = item.querySelector('.accordion-header');
-        header.addEventListener('click', () => {
-            // Fecha outros itens abertos
-            accordionItems.forEach(otherItem => {
-                if (otherItem !== item && otherItem.classList.contains('active')) {
-                    otherItem.classList.remove('active');
-                }
+            const chartLabels = Object.keys(aptitudeCounts);
+            const chartData = Object.values(aptitudeCounts);
+            const chartColors = ['#0d6efd', '#ffc107', '#dc3545', '#0dcaf0', '#6f42c1', '#fd7e14'];
+            const ctx = document.getElementById('aptitudeChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'doughnut', data: { labels: chartLabels, datasets: [{ label: 'Número de Alunos', data: chartData, backgroundColor: chartColors, borderColor: '#ffffff', borderWidth: 3, hoverOffset: 10 }] },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top', labels: { font: { family: 'Poppins', size: 14 } } }, tooltip: { callbacks: { label: function(context) { const total = context.chart.data.datasets[0].data.reduce((a, b) => a + b, 0); const value = context.raw; const percentage = ((value / total) * 100).toFixed(1); return `${context.label}: ${value} alunos (${percentage}%)`; } } } } }
             });
-            // Alterna o item clicado
-            item.classList.toggle('active');
-        });
-    });
 
-  </script>
+            // --- Lógica da Tabela e Filtros ---
+            function populateFilters() {
+                const names = [...new Set(cleanData.map(s => s.nome))].sort((a, b) => a.localeCompare(b));
+                nameFilter.innerHTML = '<option value="">Todos os Alunos</option>';
+                names.forEach(name => { nameFilter.innerHTML += `<option value="${name}">${name}</option>`; });
+
+                const aptitudes = [...new Set(cleanData.map(s => s.aptidao))].sort();
+                aptitudeFilter.innerHTML = '<option value="">Todas as Aptidões</option>';
+                aptitudes.forEach(aptitude => { aptitudeFilter.innerHTML += `<option value="${aptitude}">${aptitude}</option>`; });
+            }
+
+            function populateTable(data) {
+                dataTable.innerHTML = '';
+                data.forEach(student => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `<td>${student.nome}</td><td>${student.turma}</td><td>${student.aptidao}</td>`;
+                    dataTable.appendChild(row);
+                });
+                countElement.textContent = `Exibindo ${data.length} de ${cleanData.length} registros.`;
+            }
+
+            function filterData() {
+                const nameValue = nameFilter.value;
+                const aptitudeValue = aptitudeFilter.value;
+                const filteredData = cleanData.filter(student => {
+                    const nameMatch = nameValue === "" || student.nome === nameValue;
+                    const aptitudeMatch = aptitudeValue === "" || student.aptidao === aptitudeValue;
+                    return nameMatch && aptitudeMatch;
+                });
+                populateTable(filteredData);
+            }
+
+            nameFilter.addEventListener('change', filterData);
+            aptitudeFilter.addEventListener('change', filterData);
+
+            populateFilters();
+            populateTable(cleanData);
+        });
+    </script>
 
 </body>
 </html>
-
