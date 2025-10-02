@@ -344,7 +344,6 @@
             const dataTable = document.getElementById('dataTable');
             const countElement = document.getElementById('count');
 
-            // Limpa os dados, como remover espaços extras
             const cleanData = studentData.map(student => ({
                 ...student,
                 aptidao: student.aptidao.trim()
@@ -358,7 +357,19 @@
 
             const chartLabels = Object.keys(aptitudeCounts);
             const chartData = Object.values(aptitudeCounts);
-            const chartColors = ['#0d6efd', '#ffc107', '#dc3545', '#0dcaf0', '#6f42c1', '#fd7e14'];
+            
+            // CORREÇÃO: Adicionando mais cores à paleta para garantir que todas as categorias sejam exibidas.
+            const chartColors = [
+                '#0d6efd', // Azul
+                '#ffc107', // Amarelo
+                '#dc3545', // Vermelho
+                '#198754', // Verde
+                '#6f42c1', // Roxo
+                '#fd7e14', // Laranja
+                '#0dcaf0', // Ciano
+                '#e83e8c'  // Rosa
+            ];
+
             const ctx = document.getElementById('aptitudeChart').getContext('2d');
             new Chart(ctx, {
                 type: 'doughnut', data: { labels: chartLabels, datasets: [{ label: 'Número de Alunos', data: chartData, backgroundColor: chartColors, borderColor: '#ffffff', borderWidth: 3, hoverOffset: 10 }] },
